@@ -1,0 +1,26 @@
+n,k = list(map(int,input().split()))
+rating = list(map(int,input().split()))
+rating = [(rating[i],i+1) for i in range(len(rating))]
+
+expectedWinners = []
+def chessLeague(left,right):
+    if left == right:
+        return [rating[left]]
+    mid = left + (right-left)//2
+    leftWinners = chessLeague(left,mid)
+    rightWinners = chessLeague(mid+1,right)
+    leftWinners.sort()
+    rightWinners.sort()
+    expectedWinners = []
+    for i in leftWinners:
+        if i[0] >= rightWinners[0][0]-k:
+            expectedWinners.append(i)
+    for i in rightWinners:
+        if i[0] >= leftWinners[0][0]-k:
+            expectedWinners.append(i)
+    return expectedWinners
+result = chessLeague(0,len(rating)-1)
+result = sorted([i[1] for i in result])
+print(*result)
+    
+    
