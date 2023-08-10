@@ -1,0 +1,39 @@
+class Solution:
+    def reversePairs(self, nums: List[int]) -> int:
+        n = len(nums)
+        def merge(left, right):
+            merged = []
+            p = 0
+            k = 0
+            while p < len(left) and k < len(right):
+                if left[p] < right[k]:
+                    merged.append(left[p])
+                    p += 1
+                else:
+                    merged.append(right[k])
+                    k += 1
+
+            if p < len(left): merged.extend(left[p:])
+            if k < len(right): merged.extend(right[k:])
+            return merged
+
+        count = 0
+        def mergeSort(arr):
+            nonlocal count
+            if len(arr) == 1:
+                return arr
+            
+            mid = len(arr)//2
+            left = mergeSort(arr[:mid])
+            right = mergeSort(arr[mid:])
+            r = len(right) - 1
+
+            for i in range(len(left) - 1, -1, -1):
+                while r >= 0 and left[i] <= 2 * right[r]:
+                    r -= 1
+                count += max(r + 1, 0)
+            return merge(left, right)
+
+        mergeSort(nums)
+        return count                
+
