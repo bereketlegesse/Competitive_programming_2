@@ -1,0 +1,8 @@
+n = int(input())
+for _ in range(n):
+    list_ = list(map(int, input().split()))
+    ans = [sum(list_)]
+    for i in range(len(list_)):
+        if list_[i] == 1:
+            ans.append(i+1)
+    print(*ans)
