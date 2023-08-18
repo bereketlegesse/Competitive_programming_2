@@ -1,0 +1,53 @@
+class Solution:
+    def createSortedArray(self, instructions: List[int]) -> int:
+        cost = {(instructions[i], i):[0,0] for i in range(len(instructions))}
+        instructions = [(instructions[i], i) for i in range(len(instructions))]
+
+        def combine(left, right):
+            merged = []
+            l = 0
+            r = 0
+            while l < len(left) and r < len(right):
+                if left[l] < right[r]:
+                    merged.append(left[l])
+                    l += 1
+                else:
+                    merged.append(right[r])
+                    r += 1
+
+            if r < len(right):
+                merged.extend(right[r:])
+            if l < len(left):
+                merged.extend(left[l:])
+
+            return merged
+
+        def mergeSort(arr):
+            nonlocal cost
+            n = len(arr)
+            if n == 1:
+                return [arr[0][0]]
+            
+            left = mergeSort(arr[:n//2])
+            right = arr[n//2:]
+            
+            for i in right:
+                cost[i][1] += len(left) - bisect.bisect_right(left, i[0])
+                cost[i][0] += bisect.bisect_left(left, i[0])
+
+            right = mergeSort(arr[n//2:])
+            return combine(left, right)
+
+        mergeSort(instructions)
+        costSum = 0
+    
+        for key in cost:
+            costSum += min(cost[key][0], cost[key][1])
+
+        return costSum % (10**9 + 7)
+
+
+
+
+
+
