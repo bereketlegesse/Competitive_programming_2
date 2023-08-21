@@ -1,0 +1,28 @@
+class Solution:
+    def updateMatrix(self, mat: List[List[int]]) -> List[List[int]]:
+        n = len(mat)
+        m = len(mat[0])
+        queue = deque()
+        dirr = [(1,0), (-1,0), (0,1), (0, -1)]
+
+        for i in range(n):
+            for j in range(m):
+                if mat[i][j] == 0:
+                    queue.append((i,j))
+
+        round = 1
+        seen =  set(queue)
+        while queue:
+            curLen = len(queue)
+            for i in range(curLen):
+                row,col = queue.popleft()
+        
+                for r,c in dirr:
+                    if 0 <= row + r < n and 0 <= col + c < m and (row + r, col + c) not in seen:
+                        queue.append((row + r, col + c))
+                        mat[row + r][col + c] = round
+                        seen.add((row + r, col + c))
+                        
+            round += 1
+        return mat
+
