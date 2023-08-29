@@ -1,0 +1,65 @@
+class Solution:
+    def maxScoreWords(self, words: List[str], letters: List[str], score: List[int]) -> int:
+        valid_words = []
+        letters = Counter(letters)
+
+        def filter(words):
+            for word in words:
+                count = Counter(word)
+                for key in count.keys():
+                    if count[key] > letters[key]:
+                        break
+                else:
+                    valid_words.append(word)
+
+        def score_cal(word):
+            word_score = 0
+            for k in word:
+                word_score += score[ord(k) - 97]
+            return word_score
+
+        filter(words)
+        max_score = 0
+        n = len(valid_words)
+
+        def backtrack(index, cur_score):
+            nonlocal max_score
+            
+            if index == n:
+                max_score = max(max_score, cur_score)
+                return
+            
+            count = Counter(valid_words[index])
+            flag = True
+            for key in count.keys():
+                if count[key] > letters[key]:
+                    flag = False
+                    break
+
+            if flag:
+                for key in count.keys():
+                    letters[key] -= count[key]
+
+                word_score = score_cal(valid_words[index])
+                cur_score += word_score
+    
+                backtrack(index + 1, cur_score)
+                for key in count.keys():
+                    letters[key] += count[key]
+
+                cur_score -= word_score
+
+            backtrack(index + 1, cur_score)
+            
+        backtrack(0, 0)
+        return max_score
+
+
+            
+
+
+            
+                    
+
+
+        
