@@ -1,0 +1,28 @@
+class Solution:
+    def minTime(self, n: int, edges: List[List[int]], hasApple: List[bool]) -> int:
+        n = len(hasApple)
+        tree = {i:[] for i in range(n)}
+        seen = set()
+
+        for a,b in edges:
+            tree[a].append(b)
+            tree[b].append(a)
+
+        def dfs(node):
+            if len(tree[node]) == 0:
+                return 2*hasApple[node]
+
+            if node in seen:
+                return 0
+            
+            seen.add(node)
+            seconds = 0
+            for child in tree[node]:
+                seconds += dfs(child)
+
+            if not seconds:
+                return 2 * hasApple[node]  
+           
+            return seconds + 2
+
+        return max(0, dfs(0) - 2)
