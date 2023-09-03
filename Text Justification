@@ -1,0 +1,52 @@
+class Solution:
+    def fullJustify(self, words: List[str], maxWidth: int) -> List[str]:
+        wordLen = [len(word) for word in words]
+        n = len(words)
+        left = 0
+        curSum = len(words[0]) + 1
+        container = []
+
+        for i in range(1, n):
+            if curSum + wordLen[i] > maxWidth:
+                container.append(words[left:i])
+                left = i
+                curSum = len(words[i]) + 1
+            else:
+                curSum += len(words[i]) + 1
+                
+        container.append(words[left:])
+        lines = len(container)
+        justifiedLines = []
+
+        for i in range(lines - 1):
+            spaces = maxWidth - sum([len(word) for word in container[i]])
+            line = []
+
+            for j in range(len(container[i])):
+                if len(container[i]) == 1:
+                    line = container[i][0] + " "*(maxWidth - len(container[-1]))
+                    continue
+
+                line.append(container[i][j])
+                line.append(" "*(spaces//(len(container[i]) - 1)))
+
+                if j < spaces % (len(container[i]) - 1):
+                    line.append(" ")
+
+            line = "".join(line)
+            justifiedLines.append(line[:maxWidth])
+
+        for word in container[-1]:
+            line = " ".join(container[-1])
+            line += " "*(maxWidth - len(line))     
+
+        justifiedLines.append(line)
+        return justifiedLines
+                
+
+                
+        
+        
+
+
+
