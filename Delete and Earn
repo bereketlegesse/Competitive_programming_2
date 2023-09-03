@@ -1,0 +1,14 @@
+class Solution:
+    def deleteAndEarn(self, nums: List[int]) -> int:
+        count = Counter(nums)
+        keys = sorted(count.keys())
+        minn = min(keys)
+        maxx = max(keys)
+
+        dp = [0 for i in range(maxx + 1)]
+        
+        for i in range(maxx + 1):
+            dp[i] = dp[i - 2] + count[i]*i 
+            dp[i] = max(dp[i], dp[i - 1])
+        
+        return dp[-1]
