@@ -1,0 +1,16 @@
+class Solution:
+    def numberOfBeams(self, bank: List[str]) -> int:
+        n = len(bank)
+        rows = []
+        beams = 0
+
+        for i in range(n):
+            if not bank[i].count("1"):
+                continue
+            rows.append(bank[i].count("1"))
+
+        for i in range(1, len(rows)):
+            beams += rows[i]*rows[i - 1]
+            
+        return beams
+        
