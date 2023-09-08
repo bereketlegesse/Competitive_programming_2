@@ -1,0 +1,6 @@
+class Solution(object):
+    def complexNumberMultiply(self, n1, n2):
+        a1, b1 = n1.split('+')
+        a2, b2 = n2.split('+')
+        
+        return str(int(a1)*int(a2)-int(b1[:-1])* int(b2[:-1])) + '+'+ str(int(a1)*int(b2[:-1])+ int(a2) * int(b1[:-1]))+'i'
