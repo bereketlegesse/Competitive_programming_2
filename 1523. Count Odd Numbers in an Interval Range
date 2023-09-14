@@ -1,0 +1,11 @@
+class Solution:
+    def countOdds(self, low: int, high: int) -> int:
+        if low % 2 and high % 2:
+            return (high - low)//2 + 1
+
+        elif low % 2 or high % 2:
+            return math.ceil((high - low)/ 2)
+            
+        else:
+            return (high - low)//2
+        
