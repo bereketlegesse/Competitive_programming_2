@@ -1,0 +1,30 @@
+class Solution:
+    def numberOfArithmeticSlices(self, nums: List[int]) -> int:
+        n = len(nums)
+        subarray = []
+        count = 0
+        
+        for i in range(n):
+            if len(subarray) <= 1:
+                subarray.append(nums[i])
+                
+            else:
+                if nums[i] - subarray[-1] == subarray[1] - subarray[0]:
+                    subarray.append(nums[i])
+
+                else:
+                    if len(subarray) > 2:
+                        count += ((len(subarray) - 1)*(len(subarray) - 2))//2
+
+                    subarray = [nums[i]]
+        
+        if len(subarray) > 2:
+            count += ((len(subarray) - 1)*(len(subarray) - 2))//2
+
+        return count
+
+        
+
+
+
+        
