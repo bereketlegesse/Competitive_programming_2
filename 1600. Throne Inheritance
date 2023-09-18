@@ -1,0 +1,39 @@
+class ThroneInheritance:
+
+    def __init__(self, kingName: str):
+        self.throneInheritance = {kingName:[]}
+        self.alive = {kingName:True}
+        self.king = kingName
+
+    def birth(self, parentName: str, childName: str) -> None:
+        self.throneInheritance[parentName].append(childName)
+        self.throneInheritance[childName] = []
+        self.alive[childName] = True
+
+    def death(self, name: str) -> None:
+        self.alive[name] = False
+
+    def getInheritanceOrder(self) -> List[str]:
+        inheritance = self.dfs(self.king)
+        return inheritance
+
+    def dfs(self, name):
+        
+        if len(self.throneInheritance[name]) == 0:
+            return [name] if self.alive[name] else []
+
+        inheritance = [name] if self.alive[name] else []
+        for child in self.throneInheritance[name]:
+            inheritance.extend(self.dfs(child))
+        return inheritance
+
+
+
+        
+
+
+# Your ThroneInheritance object will be instantiated and called as such:
+# obj = ThroneInheritance(kingName)
+# obj.birth(parentName,childName)
+# obj.death(name)
+# param_3 = obj.getInheritanceOrder()
