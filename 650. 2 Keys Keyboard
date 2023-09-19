@@ -1,0 +1,20 @@
+class Solution:
+    def minSteps(self, n: int) -> int:
+        @cache
+        def dp(copied, cur):
+            if cur > n:
+                return float("inf")
+
+            if cur == n:
+                return 0
+
+            if cur + copied == n:
+                return 1
+
+            if copied == 0:
+                return 1 + dp(cur, cur)
+
+            return 1 + min(dp(copied, cur + copied), 1 + dp(cur, 2*cur))
+
+        return dp(0, 1)
+            
