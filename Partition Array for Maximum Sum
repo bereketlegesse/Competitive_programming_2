@@ -1,0 +1,16 @@
+class Solution:
+    def maxSumAfterPartitioning(self, arr: List[int], k: int) -> int:
+        n = len(arr)
+        @cache
+        def backtrack(index, curMax, curLen):
+            if index == n:
+                return curMax * curLen
+            
+            if curLen == k:
+                return curMax * k + backtrack(index + 1, arr[index], 1)
+                
+            else:
+                return max(backtrack(index + 1, arr[index], 1) + curMax * curLen, 
+                backtrack(index + 1, max(curMax, arr[index]), curLen + 1))
+                
+        return backtrack(0, 0, 0)
