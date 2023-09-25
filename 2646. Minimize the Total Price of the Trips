@@ -1,0 +1,56 @@
+class Solution:
+    def minimumTotalPrice(self, n: int, edges: List[List[int]], price: List[int], trips: List[List[int]]) -> int:
+        path = [0 for _ in range(51)]
+        tree = {i:[] for i in range(n + 1)}
+        half_price = price.copy()
+        
+        for a,b in edges:
+            tree[a].append(b)
+            tree[b].append(a)
+
+        visited = {0}
+        def search_path(node, end):
+            if node == end:
+                return True
+                
+            if node in seen:
+                return
+
+            seen.add(node)
+            for child in tree[node]:
+                path[child] += 1
+                if search_path(child, end):
+                    return True
+                path[child] -= 1
+
+        for start, end in trips:
+            seen = set()
+            path[start] += 1
+            if end != start:
+                search_path(start, end)
+
+        @cache
+        def reduceTree(node, half):
+            res1 = float("inf")
+            if half:
+                res1 = price[node]//2 * path[node]
+                for child in tree[node]:
+                    if child not in visited:
+                        visited.add(child)
+                        res1 += reduceTree(child, 0)
+                        visited.remove(child)
+
+            res2 = price[node] * path[node]
+            for child in tree[node]:
+                if child not in visited:
+                    visited.add(child)
+                    res2 += reduceTree(child, 1)
+                    visited.remove(child)
+        
+            return min(res1, res2)
+
+        return reduceTree(0, 1)
+
+        
+
+        
