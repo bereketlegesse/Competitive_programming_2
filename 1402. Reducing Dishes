@@ -1,0 +1,32 @@
+class Solution(object):
+    def maxSatisfaction(self, satisfaction):
+        satisfaction.sort()
+        if satisfaction[-1] <= 0:
+            return 0
+
+        summ = 0
+        cnt = 1
+        res = 0
+        x = None
+        for i,n in enumerate(satisfaction):
+            if n >= 0:
+                summ += n
+                res += cnt*n
+                cnt += 1
+            else:
+                x = i
+
+        if satisfaction[0]>=0:
+            return res
+
+        new = satisfaction[:x+1][::-1]
+        for i in new:
+            if summ + i > 0:
+                res += (summ + i)
+                summ += i
+            else:
+                break
+                
+        return res
+                
+        
