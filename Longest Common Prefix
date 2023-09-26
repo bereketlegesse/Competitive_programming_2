@@ -1,0 +1,38 @@
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        curNode = self.root
+        for char in word:
+            idx = ord(char) - ord('a')
+            if not curNode.children[idx]:
+                curNode.children[idx] = TrieNode()
+            curNode = curNode.children[idx]
+        curNode.is_end = True
+    
+    def longestPrefix(self):
+        curNode = self.root
+        count = 0
+        while True:
+            children = []
+            for i in curNode.children:
+                if i:
+                    children.append(i)
+            if len(children) > 1 or len(children) == 0:
+                return count
+            count += 1
+            curNode = children[0]
+
+class TrieNode:
+    def __init__(self):
+        self.is_end = True
+        self.children = [None for _ in range(26)]
+
+class Solution:
+    def longestCommonPrefix(self, strs: List[str]) -> str:
+        trie = Trie()
+        strs.sort(key = lambda x : len(x))
+        for i in strs:
+            trie.insert(i)
+        return strs[0][:trie.longestPrefix()]
