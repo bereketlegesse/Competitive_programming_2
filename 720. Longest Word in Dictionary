@@ -1,0 +1,39 @@
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+        
+    def insert(self, word):
+        curNode = self.root
+        n = len(word)
+
+        for i in range(n - 1):
+            char = word[i]
+            idx = ord(char) - ord('a')
+            if curNode.children[idx] and curNode.children[idx].is_end:
+                curNode = curNode.children[idx]
+            else:
+                return ""
+                
+        idx = ord(word[-1]) - ord('a')      
+        curNode.children[idx] = TrieNode()
+        curNode = curNode.children[idx]
+        curNode.is_end = True
+        return word
+
+class TrieNode:
+    def __init__(self):
+        self.is_end = False
+        self.children = [None for _ in range(26)]
+
+class Solution:
+    def longestWord(self, words: List[str]) -> str:
+        longest = ""
+        words.sort()
+        trie = Trie()
+
+        for word in words:
+            cur = trie.insert(word)
+            if len(cur) > len(longest):
+                longest = cur
+
+        return longest
