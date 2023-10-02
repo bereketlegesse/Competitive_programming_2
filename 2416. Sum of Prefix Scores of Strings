@@ -1,0 +1,40 @@
+class TrieNode:
+    def __init__(self):
+        self.children = [None for _ in range(26)]
+        self.count = 1
+
+class Trie:
+    def __init__(self):
+        self.root = TrieNode()
+    
+    def insert(self, word):
+        curNode = self.root
+        for char in word:
+            idx = ord(char) - ord("a")
+            if not curNode.children[idx]:
+                curNode.children[idx] = TrieNode()
+            else:
+                curNode.children[idx].count += 1
+            curNode = curNode.children[idx]
+    
+    def score(self, word):
+        curNode = self.root
+        summ = 0
+        for char in word:
+            idx = ord(char) - ord('a')
+            summ += curNode.children[idx].count
+            curNode = curNode.children[idx]
+   
+        return summ
+
+class Solution:
+    def sumPrefixScores(self, words: List[str]) -> List[int]:
+        answer = []
+        trie = Trie()
+        for word in words:
+            trie.insert(word)
+        for word in words:
+            answer.append(trie.score(word))
+     
+        return answer
+        
