@@ -1,0 +1,18 @@
+class Solution:
+    def swimInWater(self, grid: List[List[int]]) -> int:
+        def inBound(i,j):
+            return 0 <= i < len(grid) and 0 <= j < len(grid[0])
+
+        heap = [(grid[0][0], 0,0)]
+        directions = [(1,0),(-1,0),(0,1), (0,-1)]
+        visited = set((0,0))
+        while heap:
+            height, i ,j = heappop(heap)
+            if i == len(grid)-1 and j == len(grid[0])-1:
+                return height
+
+            for dx, dy in directions:
+                tx, ty = i + dx, j + dy
+                if inBound(tx, ty) and (tx, ty) not in visited:
+                    visited.add((tx, ty))
+                    heappush(heap, (max(height, grid[tx][ty]), tx, ty))
