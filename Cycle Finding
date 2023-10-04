@@ -1,0 +1,33 @@
+n,m = map(int, input().split())
+graph = []
+for _ in range(m):
+    edge = list(map(int, input().split()))
+    graph.append(edge)
+def cycleFinding():
+    parents = dict()
+    
+    dist = [float("inf")] * n
+    dist[0] = 0
+    
+    for _ in range(n - 1):
+        for u, v, w in graph:
+            if dist[u - 1] != float("inf") and dist[u - 1] + w < dist[v - 1]:
+                dist[v - 1] = dist[u - 1] + w
+                parents[v] = u
+        
+    for u, v, w in graph:
+        if dist[u - 1] != float("inf") and dist[u - 1] + w < dist[v - 1]:
+            cycle = [u]
+            cur = u
+            while True:
+                cycle.append(parents[cur])
+                cur = parents[cur]
+                if cur == u:
+                    print("YES")
+                    print(*cycle[::-1])
+                    break
+            return True
+    return False
+if cycleFinding():
+    exit()
+print("NO")
