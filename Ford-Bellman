@@ -1,0 +1,46 @@
+#include <iostream>
+#include <vector>
+#include <limits>
+
+using namespace std;
+
+int main() {
+    int n, m;
+    cin >> n >> m;
+
+    vector<vector<int>> graph;
+    for (int i = 0; i < m; i++) {
+        vector<int> edge(3);
+        for (int j = 0; j < 3; j++) {
+            cin >> edge[j];
+        }
+        graph.push_back(edge);
+    }
+
+    vector<int> dist(n, numeric_limits<int>::max());
+    dist[0] = 0;
+
+    for (int k = 0; k < n - 1; k++) {
+        for (const auto& edge : graph) {
+            int u = edge[0] - 1;
+            int v = edge[1] - 1;
+            int w = edge[2];
+            if (dist[u] != numeric_limits<int>::max() && dist[u] + w < dist[v]) {
+                dist[v] = dist[u] + w;
+            }
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        if (dist[i] == numeric_limits<int>::max()) {
+            dist[i] = 30000;
+        }
+    }
+
+    for (int i = 0; i < n; i++) {
+        cout << dist[i] << " ";
+    }
+    cout << endl;
+
+    return 0;
+}
