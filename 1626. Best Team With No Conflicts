@@ -1,0 +1,16 @@
+class Solution:
+    def bestTeamScore(self, scores: List[int], ages: List[int]) -> int:
+        n = len(scores)
+        mapp = [(ages[i], scores[i]) for i in range(n)]
+        mapp.sort()
+        dp = [0 for _ in range(n)]
+        dp[0] = mapp[0][1]
+
+        for i in range(n):
+            dp[i] = mapp[i][1]
+            for j in range(i - 1, -1 , -1):
+                if mapp[j][0] == mapp[i][0] or mapp[j][1] <= mapp[i][1]:
+                    dp[i] = max(dp[i], dp[j] + mapp[i][1])
+        
+        return max(dp)
+            
