@@ -1,0 +1,14 @@
+class Solution:
+    def lastStoneWeightII(self, stones: List[int]) -> int:
+        n = len(stones)
+        total = sum(stones)
+        @cache
+        
+        def dp(index, summ):
+            if index == n:
+                return abs(total - 2*summ)
+            return min(dp(index + 1, summ + stones[index]), dp(index + 1, summ))
+        
+        return dp(0, 0)
+            
+        
