@@ -1,0 +1,30 @@
+# Definition for a binary tree node.
+# class TreeNode:
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+class Solution:
+    def pathSum(self, root: Optional[TreeNode], targetSum: int) -> List[List[int]]:
+        validPathes = []
+        if not root:
+            return []
+        def traversal(node,target,path):
+            path.append(node.val)
+            
+            if node.left:
+                traversal(node.left,target-node.val,path)
+                path.pop()
+            else:
+                if target == node.val and not node.right:
+                    validPathes.append([i for i in path])
+                    return
+            if node.right:
+                traversal(node.right,target-node.val,path)
+                path.pop()
+            else:
+                if target == node.val and not node.left:
+                    validPathes.append([i for i in path])
+                    return
+        traversal(root,targetSum,[])
+        return validPathes
