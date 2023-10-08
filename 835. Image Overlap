@@ -1,0 +1,24 @@
+class Solution:
+    def largestOverlap(self, img1: List[List[int]], img2: List[List[int]]) -> int:
+        n = len(img1)
+        maxSum = 0
+
+        for i in range(n):
+            for j in range(n):
+                sum1 = sum2 = sum3 = sum4 = 0
+
+                for r in range(n):
+                    for c in range(n):
+                        if r < n - i and c < n - j:
+                            sum1 += img1[r][c] & img2[r + i][c + j]
+                        if r < n - i and c >= j:
+                            sum2 += img1[r][c] & img2[r + i][c - j]
+                        if r >= i and c < n - j:
+                            sum3 += img1[r][c] & img2[r - i][c + j]
+                        if r >= i and c >= j:
+                            sum4 += img1[r][c] & img2[r - i][c - j]
+                      
+                maxSum =  max(maxSum, sum1, sum2, sum3, sum4)
+                
+        return maxSum
+
