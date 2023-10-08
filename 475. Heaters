@@ -1,0 +1,17 @@
+class Solution(object):
+    def findRadius(self, houses, heaters):
+        res = 0
+        houses.sort()
+        heaters.sort()
+        p = 0 
+        for i,n in enumerate(houses):
+            if n < heaters[p]:
+                res = max(res,heaters[p]-n)
+                continue
+            else:
+                while p < len(heaters)-1 and abs(n-heaters[p])>=abs(n-heaters[p+1]):
+                    p+= 1
+                res = max(res,abs(heaters[p]-n))       
+        return res
+        
+        
