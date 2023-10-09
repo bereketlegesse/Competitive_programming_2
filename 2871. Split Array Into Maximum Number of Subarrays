@@ -1,0 +1,27 @@
+class Solution:
+    def maxSubarrays(self, nums: List[int]) -> int:
+        minScore = nums[0]
+        n = len(nums)
+        count = 0
+        maxx = max(nums) + 1
+        for i in nums:
+            minScore &= i
+        
+        current= {nums[0]}
+        score = nums[0]
+        for i in range(1, n):   
+            if score == minScore:
+                count += 1
+                minScore -= score
+                score = nums[i]
+                current = {nums[i]}
+                
+            else:
+                current.add(nums[i])
+                score &= nums[i]
+            
+        if score == minScore:
+            count += 1
+        
+        return count
+
