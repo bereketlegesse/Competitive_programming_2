@@ -1,0 +1,13 @@
+class Solution:
+    def intersection(self, nums: List[List[int]]) -> List[int]:
+        nums = [set(num) for num in nums]
+        common = nums[0]
+        n = len(nums)
+        uncommon = set()
+
+        for i in range(1, n):
+            for j in common:
+                if j not in nums[i]:
+                    uncommon.add(j)
+
+        return sorted(list(common - uncommon))
